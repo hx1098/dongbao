@@ -73,6 +73,14 @@
             <version>1.0</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.ramostear</groupId>
+            <artifactId>Happy-Captcha</artifactId>
+            <version>1.0.1</version>
+        </dependency>
+
+
+
     </dependencies>
     <!--忘记=忘了 再记。-->
 
