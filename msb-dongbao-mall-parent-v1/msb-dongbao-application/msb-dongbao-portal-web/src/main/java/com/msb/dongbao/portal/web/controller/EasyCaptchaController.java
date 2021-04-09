@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -71,7 +73,7 @@ public class EasyCaptchaController {
 
 	@GetMapping("/generator-redis")
 	@TokenCheck(required = false)
-	public void generatorCodeRedis(HttpServletRequest request, HttpServletResponse response) {
+	public Map<String, String> generatorCodeRedis(HttpServletRequest request, HttpServletResponse response) {
 
 
 		SpecCaptcha specCaptcha = new SpecCaptcha(100, 50);
@@ -79,22 +81,29 @@ public class EasyCaptchaController {
 		String text = specCaptcha.text();
 		System.out.println("验证码：" + text);
 
-		String s = UUID.randomUUID().toString();
+		String uuid = UUID.randomUUID().toString();
 
-		stringRedisTemplate.opsForValue().set("c",text);
+		String sessionId = request.getSession().getId();
 
-		try {
-			CaptchaUtil.out(specCaptcha,request,response);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		stringRedisTemplate.opsForValue().set(uuid,text);
+
+		String s1 = specCaptcha.toBase64();
+
+
+		System.out.println("base64:"+s1);
+		Map<String,String> map = new HashMap<>();
+		map.put("uuid",uuid);
+		map.put("base64",s1);
+
+		return map;
 
 	}
 
 	@GetMapping("/verify-redis")
 	@TokenCheck(required = false)
 	public String verifyRedis(String verifyCode, HttpServletRequest request) {
-		String c = stringRedisTemplate.opsForValue().get("c");
+		String sessionId = request.getSession().getId();
+		String c = stringRedisTemplate.opsForValue().get(sessionId);
 
 		if (verifyCode.equals(c)) {
 			HappyCaptcha.remove(request);
