@@ -41,7 +41,7 @@ public class ImageCode {
 		Graphics graphics = image.getGraphics();
 
 		// 拿笔 涂色，画图形
-		graphics.setColor(new Color(255,255,255));
+		graphics.setColor(new Color(42,255, 117));
 		// 画矩形
 		graphics.fillRect(0,0,width,height);
 
@@ -55,17 +55,18 @@ public class ImageCode {
 			this.code += s;
 
 			graphics.setColor(new Color(0,0,0));
-			graphics.drawString(s,(width/6)*i,40);
+			graphics.drawString(s,(width/6)*i+10,60);
 
 			// 划线
 			graphics.setColor(new Color(100,100,100));
 			graphics.drawLine((width/6)*i,40,(width/6)*i+25,40-30);
 		}
 
-//		// 识别中文测试
+		// 识别中文测试
 //		graphics.setColor(new Color(0,0,0));
 //		graphics.drawString("我是中国人",(width/6),40);
 
+//		 画100条干扰线段
 		graphics.setColor(new Color(100,100,100));
 		for (int i=0;i<100;i++){
 			int x = random.nextInt(width);
@@ -75,8 +76,6 @@ public class ImageCode {
 			graphics.drawLine(x,y,x+x1,y+y1);
 
 		}
-
-
 
 
 		// 收笔
@@ -97,7 +96,6 @@ public class ImageCode {
 		}
 
 		this.image = inputStream;
-
 
 	}
 

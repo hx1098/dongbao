@@ -10,6 +10,8 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.util.Base64;
 
 /**
  * @author 马士兵教育:chaopengfei
@@ -42,8 +44,6 @@ public class VerifyCodeController {
 				}
 			}
 
-
-
 		}catch (Exception e){
 			System.out.println("异常");
 		}
@@ -53,11 +53,46 @@ public class VerifyCodeController {
 
 	}
 
+	@GetMapping("/generator-base64")
+	@TokenCheck(required = false)
+	public String generatorCodeBase64(HttpServletRequest request , HttpServletResponse response) {
+		try {
+			ImageCode imageCode = ImageCode.getInstance();
+
+			// 验证码的值
+			String code = imageCode.getCode();
+
+			request.getSession().setAttribute(attrName, code);
+			// 验证码图片
+			ByteArrayInputStream image = imageCode.getImage();
+
+			request.getSession().setAttribute(attrName, code);
+
+			ByteArrayOutputStream swapStream = new ByteArrayOutputStream();
+			byte[] buff = new byte[1024];
+			int r = 0;
+			while ((r = image.read(buff, 0, 1024)) > 0) {
+				swapStream.write(buff, 0, r);
+			}
+
+			byte[] data = swapStream.toByteArray();
+
+			return Base64.getEncoder().encodeToString(data);
+
+
+		} catch (Exception e) {
+			System.out.println("异常");
+			return "";
+		}
+
+	}
+
 	@GetMapping("/verify")
 	@TokenCheck(required = false)
 	public String verify(String verifyCode, HttpServletRequest request){
 
 		String s = request.getSession().getAttribute(attrName).toString();
+		System.out.println("时间："+s);
 		if (verifyCode.equals(s)){
 			return "验证码校验通过";
 		}
