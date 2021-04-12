@@ -88,8 +88,6 @@ public class EasyCaptchaController {
 		stringRedisTemplate.opsForValue().set(uuid,text);
 
 		String s1 = specCaptcha.toBase64();
-
-
 		System.out.println("base64:"+s1);
 		Map<String,String> map = new HashMap<>();
 		map.put("uuid",uuid);
