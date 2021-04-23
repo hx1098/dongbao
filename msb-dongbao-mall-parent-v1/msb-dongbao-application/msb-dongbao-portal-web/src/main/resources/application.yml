@@ -19,7 +19,7 @@ mybatis-plus:
   - classpath*:/com/msb/dongbao/ums/mapper/xml/*.xml
   type-aliases-package: com.msb.dongbao.ums.entity
 server:
-  port: 8082
+  port: 8083
 
 kaptcha:
   height: 50

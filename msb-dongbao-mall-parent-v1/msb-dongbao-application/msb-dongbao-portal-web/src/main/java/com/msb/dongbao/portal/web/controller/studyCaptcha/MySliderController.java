@@ -1,4 +1,4 @@
-package com.msb.dongbao.portal.web.controller;
+package com.msb.dongbao.portal.web.controller.studyCaptcha;
 
 import com.msb.dongbao.portal.web.util.SliderUtil;
 import com.msb.dongbao.portal.web.util.VerificationVO;
