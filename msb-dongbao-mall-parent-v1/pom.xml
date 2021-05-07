@@ -18,13 +18,14 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>msb-dongbao-api</module>
+
         <module>msb-dongbao-generator</module>
 
         <!--3个module-->
         <module>msb-dongbao-application</module>
         <module>msb-dongbao-service</module>
         <module>msb-dongbao-common</module>
+        <module>msb-dongbao-api</module>
 
     </modules>
 
