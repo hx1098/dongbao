@@ -125,18 +125,30 @@ public class AESUtil {
      * 测试
      */
     public static void main(String[] args) throws Exception {
-        // 密钥
-        String randomString = "1111111111111111"; //RandomUtils.getRandomString(16);
-        System.out.println("加密密钥和解密密钥：" + randomString);
 
+        // 密钥
+        String randomString = "1111111111111111";
+        System.out.println("密钥：" + randomString);
         String content = "我的内容";
         System.out.println("加密前：" + content);
 
-        String encrypt = aesEncrypt(content, randomString);
-        System.out.println("加密后：" + encrypt);
-        randomString = "1111111111111112";
-        String decrypt = aesDecrypt(encrypt, randomString);
-        System.out.println("解密后：" + decrypt);
+        long startTime = System.currentTimeMillis();
+        for (int i=0;i<10;i++){
+            String encrypt = aesEncrypt(content, randomString);
+            System.out.println("加密后：" + encrypt);
+
+            String decrypt = aesDecrypt(encrypt, randomString);
+            System.out.println("解密后：" + decrypt);
+        }
+
+        long endTime = System.currentTimeMillis();
+        System.out.println(endTime - startTime);
+
+
+
+
+
+
     }
 
 }

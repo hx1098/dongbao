@@ -11,8 +11,10 @@ import java.security.spec.X509EncodedKeySpec;
 import java.util.HashMap;
 import java.util.Map;
 
-
-public class RSACoder {
+/**
+ * 非对称加密工具
+ */
+public class RSAUtils {
     // 非对称密钥算法
     public static final String KEY_ALGORITHM = "RSA";
 
@@ -159,31 +161,30 @@ public class RSACoder {
         return key.getEncoded();
     }
 
-    /**
-     * @param args
-     * @throws Exception
-     */
-    public static void main(String[] args) throws Exception {
-        //初始化密钥
-        //生成密钥对
-        Map<String, Object> keyMap = RSACoder.initKey();
+
+
+    public static void testOtherClass() throws Exception {
+        String mapPublicKey = "public";
+        String mapPrivateKey = "private";
+
+        Map<String,String> map = new HashMap<>();
+        map.put(mapPublicKey,"MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCuzKqd2AlIa2l90WEUXlennpTdqScsfO+hphqglJQV7hagT8fv8/Y+oAW9RV0V84jetuK/3HJRK4KJiETAWH+ZbMSTf102Fzn3hbXZIIa8E5Z8wOgN3tLwvBL84eVPZx24SjbLxlrlhz/ZXVlQYbRZ5BNWk7YBcO6cwXWuXB0CVwIDAQAB");
+        map.put(mapPrivateKey,"MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAK7Mqp3YCUhraX3RYRReV6eelN2pJyx876GmGqCUlBXuFqBPx+/z9j6gBb1FXRXziN624r/cclErgomIRMBYf5lsxJN/XTYXOfeFtdkghrwTlnzA6A3e0vC8Evzh5U9nHbhKNsvGWuWHP9ldWVBhtFnkE1aTtgFw7pzBda5cHQJXAgMBAAECgYBypByKJTQBYSDwua+30iAe+Oyda+EbVl07YVs5UfjFYT9JqMlyYEhxzjW1apagXPa5SqzwND5taeHVHaApnmEgP4f+SFh9bnbklNnH2FXZNV6ZY8OM1a3QNbxoB26kukseqC8JLpQEmn0EtnunnYogF+7DiXsOCFE272FfdpDvsQJBAPjQs49tNXsSCXlTCOPvm0bBI4CglV4FX4iSrqeMVeo/MplxBzr50cxw0YnBJgGZVjk4TRcfPTR0eEFYC1vVSvUCQQCz2NLkQlnibDcFyNvr768zTR5wh2kbBfiTbLAfE7q30ouIEjj2XYUwKumMnug4nnDyiWVHX+o0El64+00p8iCbAkEAramNCjhhMYr/Tczk0aK1MAcx7l8mob8CVOJ8QLk0ZhDCElLPhxxCkHzV414KVuddRQbE17SYFXqNTJ5VHz2Z2QJAM+uctpkRKfTjzZ+3Hd4MTlstNn9hMJQAt07haZdgiEEYVygrmbRWBxncYuRdVjsnkF1qB7kA/BdxkSW7mSh1kQJAEC3KpYE5v0M9k1MiyQICy9K7bApAK7tWtlMh1wjZ8RPmzW+GqL5nMB+mOmPKJlFgyU0gIBMD4P0jXNdaouftYQ==");
         //公钥
-        byte[] publicKey = RSACoder.getPublicKey(keyMap);
+        byte[] publicKey = map.get(mapPublicKey).getBytes();
         //私钥
-        byte[] privateKey = RSACoder.getPrivateKey(keyMap);
-        System.out.println("公钥：" + Base64.encodeBase64String(publicKey));
-        System.out.println("私钥：" + Base64.encodeBase64String(privateKey));
+        byte[] privateKey = map.get(mapPrivateKey).getBytes();
 
         System.out.println("================密钥对构造完毕,甲方将公钥公布给乙方，开始进行加密数据的传输=============");
         String str = "RSA密码交换算法";
         System.out.println("===========甲方向乙方发送加密数据==============");
         System.out.println("原文:" + str);
         //甲方进行数据的加密
-        byte[] code1 = RSACoder.encryptByPrivateKey(str.getBytes(), privateKey);
+        byte[] code1 = RSAUtils.encryptByPrivateKey(str.getBytes(), privateKey);
         System.out.println("加密后的数据：" + Base64.encodeBase64String(code1));
         System.out.println("===========乙方使用甲方提供的公钥对数据进行解密==============");
         //乙方进行数据的解密
-        byte[] decode1 = RSACoder.decryptByPublicKey(code1, publicKey);
+        byte[] decode1 = RSAUtils.decryptByPublicKey(code1, publicKey);
         System.out.println("乙方解密后的数据：" + new String(decode1) );
 
         System.out.println("===========反向进行操作，乙方向甲方发送数据==============");
@@ -193,7 +194,7 @@ public class RSACoder {
         System.out.println("原文:" + str);
 
         //乙方使用公钥对数据进行加密
-        byte[] code2 = RSACoder.encryptByPublicKey(str.getBytes(), publicKey);
+        byte[] code2 = RSAUtils.encryptByPublicKey(str.getBytes(), publicKey);
         System.out.println("===========乙方使用公钥对数据进行加密==============");
         System.out.println("加密后的数据：" + Base64.encodeBase64String(code2));
 
@@ -201,8 +202,61 @@ public class RSACoder {
         System.out.println("===========甲方使用私钥对数据进行解密==============");
 
         //甲方使用私钥对数据进行解密
-        byte[] decode2 = RSACoder.decryptByPrivateKey(code2, privateKey);
+        byte[] decode2 = RSAUtils.decryptByPrivateKey(code2, privateKey);
 
         System.out.println("甲方解密后的数据：" + new String(decode2));
     }
+
+    public static void testThisClass() throws Exception {
+        //初始化密钥
+        //生成密钥对
+        Map<String, Object> keyMap = RSAUtils.initKey();
+        //公钥
+        byte[] publicKey = RSAUtils.getPublicKey(keyMap);
+        //私钥
+        byte[] privateKey = RSAUtils.getPrivateKey(keyMap);
+        System.out.println("公钥：" + Base64.encodeBase64String(publicKey));
+        System.out.println("私钥：" + Base64.encodeBase64String(privateKey));
+
+        System.out.println("================密钥对构造完毕,甲方将公钥公布给乙方，开始进行加密数据的传输=============");
+        String str = "RSA密码交换算法";
+        System.out.println("===========甲方向乙方发送加密数据==============");
+        System.out.println("原文:" + str);
+        //甲方进行数据的加密
+        byte[] code1 = RSAUtils.encryptByPrivateKey(str.getBytes(), privateKey);
+        System.out.println("加密后的数据：" + Base64.encodeBase64String(code1));
+        System.out.println("===========乙方使用甲方提供的公钥对数据进行解密==============");
+        //乙方进行数据的解密
+        byte[] decode1 = RSAUtils.decryptByPublicKey(code1, publicKey);
+        System.out.println("乙方解密后的数据：" + new String(decode1) );
+
+        System.out.println("===========反向进行操作，乙方向甲方发送数据==============");
+
+        str = "乙方向甲方发送数据RSA算法";
+
+        System.out.println("原文:" + str);
+
+        //乙方使用公钥对数据进行加密
+        byte[] code2 = RSAUtils.encryptByPublicKey(str.getBytes(), publicKey);
+        System.out.println("===========乙方使用公钥对数据进行加密==============");
+        System.out.println("加密后的数据：" + Base64.encodeBase64String(code2));
+
+        System.out.println("=============乙方将数据传送给甲方======================");
+        System.out.println("===========甲方使用私钥对数据进行解密==============");
+
+        //甲方使用私钥对数据进行解密
+        byte[] decode2 = RSAUtils.decryptByPrivateKey(code2, privateKey);
+
+        System.out.println("甲方解密后的数据：" + new String(decode2));
+    }
+
+    /**
+     * @param args
+     * @throws Exception
+     */
+    public static void main(String[] args) throws Exception {
+//        testOtherClass();
+        testThisClass();
+    }
+
 }
