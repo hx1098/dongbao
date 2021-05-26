@@ -1,6 +1,7 @@
 package com.msb.dongbao.portal.web.controller.api;
 
 import com.msb.msbdongbaocommonutil.MD5Util;
+import com.msb.msbdongbaocommonutil.Sha256Utils;
 
 import java.util.*;
 
@@ -10,11 +11,14 @@ import java.util.*;
  */
 public class CheckUtils {
 
-	// app secret和 appId，一一对应
+	/**
+	* app secret和 appId，一一对应
+	 */
 	public static String appSecret = "aaa";
 
 	// 根据map生成签名
 	public static String generatorSign(Map<String,Object> map){
+		map.remove("sign");
 		// 排序:
 		Map<String, Object> stringObjectMap = sortMapByKey(map);
 		// 转格式:   name=张三&age=10,:  name,张三,age,10
@@ -28,8 +32,9 @@ public class CheckUtils {
 		// 组装secret  在参数的后面 添加 secret
 		sb.append("secret").append(appSecret);
 		// 生成签名
-
 		return MD5Util.md5(sb.toString());
+		// sha256生成 签名
+//		return Sha256Utils.getSHA256(sb.toString());
 	}
 
 	public static Map<String,Object> sortMapByKey(Map<String,Object> map){
@@ -46,7 +51,7 @@ public class CheckUtils {
 	static class MyMapComparator implements Comparator<String>{
 		@Override
 		public int compare(String o1, String o2) {
-			return -o1.compareTo(o2);
+			return o1.compareTo(o2);
 		}
 	}
 
@@ -61,6 +66,7 @@ public class CheckUtils {
 
 		map.put("appId",1);
 		map.put("name",2);
+
 
 		String s = generatorSign(map);
 		// 74f0c8c14fd2869121c910601e9ea859
