@@ -32,7 +32,7 @@ public class ApiSafeController {
 	public String getTest(String appId, String name , String sign , long timestamp , HttpServletRequest httpServletRequest){
 
 		// 为了排序
-		HashMap<String,Object> map= new HashMap<>();
+		HashMap<String,String> map= new HashMap<>();
 
 		// 参数写死
 //		map.put("appId",appId);
@@ -67,27 +67,34 @@ public class ApiSafeController {
 	}
 
 
-	@PostMapping("/post-test")
+	@PutMapping("/post-test")
 	public String postTest(@RequestBody SignDTO signDTO){
+		System.out.println("进入controller方法");
+
 		JSONObject obj = JSONUtil.parseObj(signDTO);
+		System.out.println("controller参数："+obj);
 
-		// 参数转map
-		Map<String, Object> stringObjectMap = Convert.toMap(String.class, Object.class, obj);
-		// 排序
-		Map<String, Object> stringObjectMap1 = CheckUtils.sortMapByKey(stringObjectMap);
-		System.out.println(stringObjectMap1);
 
-		// map生成签名
-		// 客户端传来的
-		Object signClient = stringObjectMap1.get("sign");
-		String signServer = CheckUtils.generatorSign(stringObjectMap1);
 
-		// 判断签名
-		if (signServer.equals(signClient)){
-			return "校验通过";
-		}else {
-			return "校验 不通过";
-		}
+//		// 参数转map
+//		Map<String, String> stringObjectMap = Convert.toMap(String.class, Object.class, obj);
+//		// 排序
+//		Map<String, String> stringObjectMap1 = CheckUtils.sortMapByKey(stringObjectMap);
+//		System.out.println(stringObjectMap1);
+//
+//		// map生成签名
+//		// 客户端传来的
+//		Object signClient = stringObjectMap1.get("sign");
+//		String signServer = CheckUtils.generatorSign(stringObjectMap1);
+//
+//		// 判断签名
+//		if (signServer.equals(signClient)){
+//			return "校验通过";
+//		}else {
+//			return "校验 不通过";
+//		}
+
+		return "controller";
 
 	}
 }

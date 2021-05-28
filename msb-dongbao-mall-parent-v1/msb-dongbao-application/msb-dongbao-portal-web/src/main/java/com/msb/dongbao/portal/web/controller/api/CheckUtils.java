@@ -16,15 +16,29 @@ public class CheckUtils {
 	 */
 	public static String appSecret = "aaa";
 
+	// 校验 签名
+	public static boolean checkSign(Map<String,String> map){
+		String sign = (String) map.get("sign");
+		map.remove("sign");
+		// 生成sign
+		String s = CheckUtils.generatorSign(map);
+		if (s.equals(sign)){
+			return true;
+		}else {
+			return false;
+		}
+
+	}
+
 	// 根据map生成签名
-	public static String generatorSign(Map<String,Object> map){
+	public static String generatorSign(Map<String,String> map){
 		map.remove("sign");
 		// 排序:
-		Map<String, Object> stringObjectMap = sortMapByKey(map);
+		Map<String, String> stringObjectMap = sortMapByKey(map);
 		// 转格式:   name=张三&age=10,:  name,张三,age,10
-		Set<Map.Entry<String, Object>> entries = stringObjectMap.entrySet();
+		Set<Map.Entry<String, String>> entries = stringObjectMap.entrySet();
 		StringBuilder sb = new StringBuilder();
-		for (Map.Entry<String,Object> e : entries){
+		for (Map.Entry<String,String> e : entries){
 			sb.append(e.getKey()+","+e.getValue()).append("#");
 		}
 
@@ -37,10 +51,10 @@ public class CheckUtils {
 //		return Sha256Utils.getSHA256(sb.toString());
 	}
 
-	public static Map<String,Object> sortMapByKey(Map<String,Object> map){
+	public static Map<String,String> sortMapByKey(Map<String,String> map){
 		// 判断一下map是否为空，自己写
 
-		Map<String,Object> sortMap = new TreeMap<>(new MyMapComparator());
+		Map<String,String> sortMap = new TreeMap<>(new MyMapComparator());
 
 		sortMap.putAll(map);
 
@@ -56,16 +70,14 @@ public class CheckUtils {
 	}
 
 	public static void main(String[] args) {
-		HashMap<String,Object> map = new HashMap<>();
-//		map.put("ap",1);
-//		map.put("z1",2);
-//		map.put("he",3);
-//
-//		Map<String, Object> stringObjectMap = sortMapByKey(map);
-//		System.out.println(stringObjectMap);
+		HashMap<String,String> map = new HashMap<>();
+		map.put("appId","1");
+		map.put("name","2");
+		map.put("urlParam","3");
 
-		map.put("appId",1);
-		map.put("name",2);
+		Map<String, String> stringObjectMap = sortMapByKey(map);
+		System.out.println(stringObjectMap);
+
 
 
 		String s = generatorSign(map);
