@@ -74,6 +74,9 @@ public class ApiSafeController {
 		JSONObject obj = JSONUtil.parseObj(signDTO);
 		System.out.println("controller参数："+obj);
 
+		// 工具类 直接校验sign, 可以参考
+//		boolean b = CheckUtils.checkSign(new HashMap<>());
+
 
 
 //		// 参数转map
