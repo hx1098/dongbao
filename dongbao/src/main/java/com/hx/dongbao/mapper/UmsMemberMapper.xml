@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hx.dongbao.mapper.UmsMemberMapper">
+
+    <resultMap type="com.hx.dongbao.entity.UmsMember" id="UmsMemberMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="username" column="username" jdbcType="VARCHAR"/>
+        <result property="password" column="password" jdbcType="VARCHAR"/>
+        <result property="icon" column="icon" jdbcType="VARCHAR"/>
+        <result property="email" column="email" jdbcType="VARCHAR"/>
+        <result property="nickName" column="nick_name" jdbcType="VARCHAR"/>
+        <result property="note" column="note" jdbcType="VARCHAR"/>
+        <result property="gmtCreate" column="gmt_create" jdbcType="TIMESTAMP"/>
+        <result property="gmtModified" column="gmt_modified" jdbcType="TIMESTAMP"/>
+        <result property="loginTime" column="login_time" jdbcType="TIMESTAMP"/>
+        <result property="status" column="status" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="UmsMemberMap">
+        select id,
+               username,
+               password,
+               icon,
+               email,
+               nick_name,
+               note,
+               gmt_create,
+               gmt_modified,
+               login_time,
+               status
+        from dongbao.ums_member
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="UmsMemberMap">
+        select id,
+               username,
+               password,
+               icon,
+               email,
+               nick_name,
+               note,
+               gmt_create,
+               gmt_modified,
+               login_time,
+               status
+        from dongbao.ums_member limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="UmsMemberMap">
+        select
+        id, username, password, icon, email, nick_name, note, gmt_create, gmt_modified, login_time, status
+        from dongbao.ums_member
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="username != null and username != ''">
+                and username = #{username}
+            </if>
+            <if test="password != null and password != ''">
+                and password = #{password}
+            </if>
+            <if test="icon != null and icon != ''">
+                and icon = #{icon}
+            </if>
+            <if test="email != null and email != ''">
+                and email = #{email}
+            </if>
+            <if test="nickName != null and nickName != ''">
+                and nick_name = #{nickName}
+            </if>
+            <if test="note != null and note != ''">
+                and note = #{note}
+            </if>
+            <if test="gmtCreate != null">
+                and gmt_create = #{gmtCreate}
+            </if>
+            <if test="gmtModified != null">
+                and gmt_modified = #{gmtModified}
+            </if>
+            <if test="loginTime != null">
+                and login_time = #{loginTime}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into dongbao.ums_member(username, password, icon, email, nick_name, note, gmt_create, gmt_modified,
+                                       login_time, status)
+        values (#{username}, #{password}, #{icon}, #{email}, #{nickName}, #{note}, #{gmtCreate}, #{gmtModified},
+                #{loginTime}, #{status})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into dongbao.ums_member(username, password, icon, email, nick_name, note, gmt_create, gmt_modified,
+        login_time, status)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.username}, #{entity.password}, #{entity.icon}, #{entity.email}, #{entity.nickName},
+            #{entity.note}, #{entity.gmtCreate}, #{entity.gmtModified}, #{entity.loginTime}, #{entity.status})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into dongbao.ums_member(username, password, icon, email, nick_name, note, gmt_create, gmt_modified,
+        login_time, status)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.username}, #{entity.password}, #{entity.icon}, #{entity.email}, #{entity.nickName},
+            #{entity.note}, #{entity.gmtCreate}, #{entity.gmtModified}, #{entity.loginTime}, #{entity.status})
+        </foreach>
+        on duplicate key update
+        username = values(username) , password = values(password) , icon = values(icon) , email = values(email) ,
+        nick_name = values(nick_name) , note = values(note) , gmt_create = values(gmt_create) , gmt_modified =
+        values(gmt_modified) , login_time = values(login_time) , status = values(status)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update dongbao.ums_member
+        <set>
+            <if test="username != null and username != ''">
+                username = #{username},
+            </if>
+            <if test="password != null and password != ''">
+                password = #{password},
+            </if>
+            <if test="icon != null and icon != ''">
+                icon = #{icon},
+            </if>
+            <if test="email != null and email != ''">
+                email = #{email},
+            </if>
+            <if test="nickName != null and nickName != ''">
+                nick_name = #{nickName},
+            </if>
+            <if test="note != null and note != ''">
+                note = #{note},
+            </if>
+            <if test="gmtCreate != null">
+                gmt_create = #{gmtCreate},
+            </if>
+            <if test="gmtModified != null">
+                gmt_modified = #{gmtModified},
+            </if>
+            <if test="loginTime != null">
+                login_time = #{loginTime},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete
+        from dongbao.ums_member
+        where id = #{id}
+    </delete>
+
+</mapper>
+
