@@ -5,6 +5,8 @@ import com.hx.dongbao.dto.UmsMemberRegisterParamDTO;
 import com.hx.dongbao.entity.UmsMember;
 import com.hx.dongbao.service.UmsMemberService;
 import com.hx.dongbao.utils.ResultWrapper;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -16,6 +18,7 @@ import javax.validation.Valid;
  * @author makejava
  * @since 2022-04-24 20:45:49
  */
+@Api(tags = "用户")
 @RestController
 @RequestMapping("user-member")
 public class UmsMemberController {
@@ -41,6 +44,7 @@ public class UmsMemberController {
      * @param umsMemberRegisterParamDTO
      * @return
      */
+    @ApiOperation("注册")
     @PostMapping("/register")
     public ResultWrapper register(@RequestBody @Valid UmsMemberRegisterParamDTO umsMemberRegisterParamDTO){
 

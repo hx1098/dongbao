@@ -1,5 +1,6 @@
 package com.hx.dongbao.dto;
 
+import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.ToString;
 import org.hibernate.validator.constraints.Email;
@@ -17,6 +18,7 @@ import javax.validation.constraints.Size;
  */
 @Data
 @ToString
+@ApiModel(value = "用户信息")
 public class UmsMemberRegisterParamDTO {
 
     @Size(min = 1, max = 8, message = "用户名长度在1-8之间")
