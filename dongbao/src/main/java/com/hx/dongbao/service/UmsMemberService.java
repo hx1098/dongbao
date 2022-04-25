@@ -1,7 +1,9 @@
 package com.hx.dongbao.service;
 
 
+import com.hx.dongbao.dto.UmsMemberRegisterParamDTO;
 import com.hx.dongbao.entity.UmsMember;
+import com.hx.dongbao.utils.ResultWrapper;
 
 import java.util.List;
 
@@ -53,5 +55,7 @@ public interface UmsMemberService {
      * @return 是否成功
      */
     boolean deleteById(Long id);
+
+    ResultWrapper register(UmsMemberRegisterParamDTO umsMemberREgisterParamDTO);
 
 }

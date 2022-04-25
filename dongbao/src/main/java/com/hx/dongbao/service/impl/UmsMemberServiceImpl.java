@@ -1,9 +1,14 @@
 package com.hx.dongbao.service.impl;
 
 
+import com.hx.dongbao.dto.UmsMemberRegisterParamDTO;
 import com.hx.dongbao.mapper.UmsMemberMapper;
 import com.hx.dongbao.entity.UmsMember;
 import com.hx.dongbao.service.UmsMemberService;
+import com.hx.dongbao.utils.ResultWrapper;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -18,7 +23,10 @@ import java.util.List;
 @Service("umsMemberService")
 public class UmsMemberServiceImpl implements UmsMemberService {
     @Resource
-    private UmsMemberMapper umsMemberDao;
+    private UmsMemberMapper umsMemberMapper;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     /**
      * 通过ID查询单条数据
@@ -28,7 +36,7 @@ public class UmsMemberServiceImpl implements UmsMemberService {
      */
     @Override
     public UmsMember queryById(Long id) {
-        return this.umsMemberDao.queryById(id);
+        return this.umsMemberMapper.queryById(id);
     }
 
     /**
@@ -40,7 +48,7 @@ public class UmsMemberServiceImpl implements UmsMemberService {
      */
     @Override
     public List<UmsMember> queryAllByLimit(int offset, int limit) {
-        return this.umsMemberDao.queryAllByLimit(offset, limit);
+        return this.umsMemberMapper.queryAllByLimit(offset, limit);
     }
 
     /**
@@ -51,7 +59,7 @@ public class UmsMemberServiceImpl implements UmsMemberService {
      */
     @Override
     public UmsMember insert(UmsMember umsMember) {
-        this.umsMemberDao.insert(umsMember);
+        this.umsMemberMapper.insert(umsMember);
         return umsMember;
     }
 
@@ -63,7 +71,7 @@ public class UmsMemberServiceImpl implements UmsMemberService {
      */
     @Override
     public UmsMember update(UmsMember umsMember) {
-        this.umsMemberDao.update(umsMember);
+        this.umsMemberMapper.update(umsMember);
         return this.queryById(umsMember.getId());
     }
 
@@ -75,6 +83,20 @@ public class UmsMemberServiceImpl implements UmsMemberService {
      */
     @Override
     public boolean deleteById(Long id) {
-        return this.umsMemberDao.deleteById(id) > 0;
+        return this.umsMemberMapper.deleteById(id) > 0;
+    }
+
+    @Override
+    public ResultWrapper register(UmsMemberRegisterParamDTO umsMemberREgisterParamDTO) {
+        UmsMember umsMember = new UmsMember();
+        BeanUtils.copyProperties(umsMemberREgisterParamDTO,umsMember);
+
+        String encode = passwordEncoder.encode(umsMemberREgisterParamDTO.getPassword());
+
+        umsMember.setPassword(encode);
+
+        umsMemberMapper.insert(umsMember);
+        return ResultWrapper.getSuccessBuilder().build();
+
     }
 }
