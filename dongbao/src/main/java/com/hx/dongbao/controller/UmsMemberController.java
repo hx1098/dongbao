@@ -1,7 +1,9 @@
 package com.hx.dongbao.controller;
 
 
+import com.hx.dongbao.dto.UmsMemberLoginParamDTO;
 import com.hx.dongbao.dto.UmsMemberRegisterParamDTO;
+import com.hx.dongbao.dto.UmsMemberUpdateDTO;
 import com.hx.dongbao.entity.UmsMember;
 import com.hx.dongbao.service.UmsMemberService;
 import com.hx.dongbao.utils.ResultWrapper;
@@ -49,6 +51,20 @@ public class UmsMemberController {
     public ResultWrapper register(@RequestBody @Valid UmsMemberRegisterParamDTO umsMemberRegisterParamDTO){
 
         return umsMemberService.register(umsMemberRegisterParamDTO);
+    }
+
+    @ApiOperation("登录")
+    @PostMapping("/login")
+    public ResultWrapper login(@RequestBody @Valid UmsMemberLoginParamDTO umsMemberLoginParamDTO){
+
+        return umsMemberService.login(umsMemberLoginParamDTO);
+    }
+
+    @ApiOperation("登录")
+    @PostMapping("/edit")
+    public ResultWrapper edit(@RequestBody  UmsMemberUpdateDTO umsMemberUpdateDTO){
+        int edit = umsMemberService.edit(umsMemberUpdateDTO);
+        return ResultWrapper.builder().data("1").code(200).build();
     }
 
 }

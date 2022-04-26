@@ -82,5 +82,7 @@ public interface UmsMemberMapper {
      */
     int deleteById(Long id);
 
+    UmsMember selectByName(String username);
+
 }
 

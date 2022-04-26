@@ -90,6 +90,16 @@
             </if>
         </where>
     </select>
+    <select id="selectByName" resultType="com.hx.dongbao.entity.UmsMember">
+        select
+        id, username, password, icon, email, nick_name, note, gmt_create, gmt_modified, login_time, status
+        from dongbao.ums_member
+        <where>
+            <if test="username != null and username != ''">
+                and username = #{username}
+            </if>
+        </where>
+    </select>
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="id" useGeneratedKeys="true">
@@ -167,6 +177,8 @@
         from dongbao.ums_member
         where id = #{id}
     </delete>
+
+
 
 </mapper>
 
