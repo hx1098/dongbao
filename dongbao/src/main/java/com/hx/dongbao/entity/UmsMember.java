@@ -10,6 +10,7 @@ import java.io.Serializable;
  * @since 2022-04-24 20:45:45
  */
 public class UmsMember implements Serializable {
+
     private static final long serialVersionUID = 627411431785627895L;
 
     private Long id;
@@ -136,5 +137,4 @@ public class UmsMember implements Serializable {
     public void setStatus(Integer status) {
         this.status = status;
     }
-
 }
