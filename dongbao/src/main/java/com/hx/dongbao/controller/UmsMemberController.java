@@ -56,7 +56,6 @@ public class UmsMemberController {
     @ApiOperation("登录")
     @PostMapping("/login")
     public ResultWrapper login(@RequestBody @Valid UmsMemberLoginParamDTO umsMemberLoginParamDTO){
-
         return umsMemberService.login(umsMemberLoginParamDTO);
     }
 
