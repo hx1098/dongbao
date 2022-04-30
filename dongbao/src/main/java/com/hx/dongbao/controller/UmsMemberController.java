@@ -1,6 +1,7 @@
 package com.hx.dongbao.controller;
 
 
+import com.hx.dongbao.annotion.TokenCheck;
 import com.hx.dongbao.dto.UmsMemberLoginParamDTO;
 import com.hx.dongbao.dto.UmsMemberRegisterParamDTO;
 import com.hx.dongbao.dto.UmsMemberUpdateDTO;
@@ -59,8 +60,9 @@ public class UmsMemberController {
         return umsMemberService.login(umsMemberLoginParamDTO);
     }
 
-    @ApiOperation("登录")
+    @ApiOperation("edit")
     @PostMapping("/edit")
+    @TokenCheck
     public ResultWrapper edit(@RequestBody  UmsMemberUpdateDTO umsMemberUpdateDTO){
         int edit = umsMemberService.edit(umsMemberUpdateDTO);
         return ResultWrapper.builder().data("1").code(200).build();
