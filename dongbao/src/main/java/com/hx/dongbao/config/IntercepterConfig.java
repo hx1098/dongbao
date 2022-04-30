@@ -6,6 +6,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author hx
  * @version 1.0.0
@@ -15,20 +18,33 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * @editTime 2022/4/30 10:26
  * @editDescription  这里配置后是用拦截器生效
  */
-@Configuration
+//@Configuration
 public class IntercepterConfig implements WebMvcConfigurer {
+
+
+    public static List<String> getMapping() {
+        List<String> strings = new ArrayList<>();
+        strings.add("/**/user-member/selectOne/**");
+        strings.add("/**/user-member/register");
+        strings.add("/user-member/login");
+        strings.add("/**/code/**");
+
+        return strings;
+    }
+
+
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(authIntercepter())
+        registry.addInterceptor(new AuthIntercepter())
                 .addPathPatterns("/**")
                 //需要配置成这种的路径才会生效, 不知道为啥会这样....
-                .excludePathPatterns("/**/user-member/login/**", "/**/user-member/register/**", "/**/user-member/code/**");
+                .excludePathPatterns(getMapping());
     }
 
 
-    @Bean
+    /*@Bean
     public AuthIntercepter authIntercepter() {
         return new AuthIntercepter();
-    }
+    }*/
 }

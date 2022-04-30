@@ -1,5 +1,6 @@
 package com.hx.dongbao.controller;
 
+import com.hx.dongbao.annotion.TokenCheck;
 import com.hx.dongbao.utils.VerifyCodeUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +24,8 @@ import javax.servlet.http.HttpServletResponse;
 @RequestMapping("/code")
 public class VerifyController {
 
+    public static final String codeKey = "verifyCode";
+
     @GetMapping("/generator")
     public void generatorCode(HttpServletRequest request, HttpServletResponse response) {
         VerifyCodeUtil verifyCodeUtil = new VerifyCodeUtil();
@@ -32,7 +35,8 @@ public class VerifyController {
         log.info("vertify::text = [{}]", text);
         //redisUtial.save(text)
 
-        String codeKey = "abc";
+        request.getSession().setAttribute(codeKey, text);
+
         request.getSession().setAttribute("AppConst.Login.CodeKey", codeKey);
         verifyCodeUtil.writeCodeToRespone(response);
     }
@@ -41,6 +45,10 @@ public class VerifyController {
     public String vertify(String verifyCode, HttpServletRequest request) {
         log.info("vertify::verifyCode = [{}], request = [{}]",verifyCode, request);
 
-        return null;
+        String cody = request.getSession().getAttribute(codeKey).toString();
+        if (verifyCode.equals(cody)) {
+            return "验证码通过!";
+        }
+        return "验证码不通过!";
     }
 }
