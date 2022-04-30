@@ -23,7 +23,7 @@ public class IntercepterConfig implements WebMvcConfigurer {
         registry.addInterceptor(authIntercepter())
                 .addPathPatterns("/**")
                 //需要配置成这种的路径才会生效, 不知道为啥会这样....
-                .excludePathPatterns("/**/user-member/login/**", "/**/user-member/register/**");
+                .excludePathPatterns("/**/user-member/login/**", "/**/user-member/register/**", "/**/user-member/code/**");
     }
 
 
