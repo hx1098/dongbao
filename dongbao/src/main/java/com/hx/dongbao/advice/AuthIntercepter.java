@@ -9,6 +9,7 @@ import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.security.auth.login.LoginException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Method;
@@ -55,7 +56,7 @@ public class AuthIntercepter implements HandlerInterceptor {
                     JwtUtil.parseToken(token);
                     return true;
                 } catch (Exception e) {
-                    return false;
+                    throw new LoginException("token异常!");
                 }
             }
             return true;

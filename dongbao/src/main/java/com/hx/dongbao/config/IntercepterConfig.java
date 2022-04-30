@@ -13,7 +13,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * @description
  * @editUser hx
  * @editTime 2022/4/30 10:26
- * @editDescription
+ * @editDescription  这里配置后是用拦截器生效
  */
 @Configuration
 public class IntercepterConfig implements WebMvcConfigurer {
@@ -22,7 +22,8 @@ public class IntercepterConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(authIntercepter())
                 .addPathPatterns("/**")
-                .excludePathPatterns("/register");
+                //需要配置成这种的路径才会生效, 不知道为啥会这样....
+                .excludePathPatterns("/**/user-member/login/**", "/**/user-member/register/**");
     }
 
 
