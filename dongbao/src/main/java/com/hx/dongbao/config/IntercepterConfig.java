@@ -26,8 +26,9 @@ public class IntercepterConfig implements WebMvcConfigurer {
         List<String> strings = new ArrayList<>();
         strings.add("/**/user-member/selectOne/**");
         strings.add("/**/user-member/register");
-        strings.add("/user-member/login");
+        strings.add("/**/user-member/login");
         strings.add("/**/code/**");
+        strings.add("/**/swagger-ui/**");
 
         return strings;
     }

@@ -38,8 +38,24 @@ public class VerifyController {
         request.getSession().setAttribute(codeKey, text);
 
         request.getSession().setAttribute("AppConst.Login.CodeKey", codeKey);
+
         verifyCodeUtil.writeCodeToRespone(response);
     }
+
+    @GetMapping("/generatorToBase64")
+    public String generatorCodeToBase64(HttpServletRequest request, HttpServletResponse response) {
+        VerifyCodeUtil verifyCodeUtil = new VerifyCodeUtil();
+        verifyCodeUtil.generateCode();
+        //获取验证码中的code
+        String text = verifyCodeUtil.getText();
+        log.info("vertify::text = [{}]", text);
+        //redisUtial.save(text)
+
+        request.getSession().setAttribute(codeKey, text);
+        request.getSession().setAttribute("AppConst.Login.CodeKey", codeKey);
+        return verifyCodeUtil.writeCodeToBase64();
+    }
+
 
     @GetMapping("/vertify")
     public String vertify(String verifyCode, HttpServletRequest request) {

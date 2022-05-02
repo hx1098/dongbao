@@ -1,5 +1,6 @@
 package com.hx.dongbao.utils;
 
+import com.sun.xml.internal.messaging.saaj.util.ByteOutputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -7,9 +8,11 @@ import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Base64;
 import java.util.Random;
 
 /**
@@ -74,6 +77,19 @@ public class VerifyCodeUtil {
             LOGGER.error("文件未发现异常", e);
         } catch (IOException e) {
             LOGGER.error("写验证码异常", e);
+        }
+    }
+
+    public String writeCodeToBase64() {
+        try {
+            ByteOutputStream outputStream = new ByteOutputStream();
+            //codeImg
+            ImageIO.write(codeImg, "JPEG", outputStream);
+            byte[] bytes = outputStream.toByteArray();
+            return Base64.getEncoder().encodeToString(bytes);
+        } catch (IOException e) {
+            LOGGER.error("写验证码异常", e);
+            return "";
         }
     }
 
