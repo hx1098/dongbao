@@ -14,3 +14,6 @@
         VerifyController.java
         
     2.破解掉
+
+### 4.验证码解决方案
+    1.jcaptcha   http://jcaptcha.sourceforge.net/
