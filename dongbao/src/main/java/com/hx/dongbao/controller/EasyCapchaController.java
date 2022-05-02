@@ -4,6 +4,7 @@ import com.ramostear.captcha.HappyCaptcha;
 import com.ramostear.captcha.support.CaptchaStyle;
 import com.ramostear.captcha.support.CaptchaType;
 import com.wf.captcha.ArithmeticCaptcha;
+import com.wf.captcha.ChineseCaptcha;
 import com.wf.captcha.SpecCaptcha;
 import com.wf.captcha.utils.CaptchaUtil;
 import io.swagger.annotations.Api;
@@ -44,9 +45,13 @@ public class EasyCapchaController {
             //CaptchaUtil.out(request, response);
 
             //算数类型的
-            ArithmeticCaptcha arithmeticCaptcha = new ArithmeticCaptcha(200, 50);
+           /* ArithmeticCaptcha arithmeticCaptcha = new ArithmeticCaptcha(200, 50);
             arithmeticCaptcha.setLen(3);
-            CaptchaUtil.out(arithmeticCaptcha,request, response);
+            CaptchaUtil.out(arithmeticCaptcha,request, response);*/
+
+            ChineseCaptcha chineseCaptcha = new ChineseCaptcha();
+            chineseCaptcha.setLen(7);
+            CaptchaUtil.out(chineseCaptcha, request, response);
 
         } catch (Exception e) {
             e.printStackTrace();
