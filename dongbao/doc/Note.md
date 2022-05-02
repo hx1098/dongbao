@@ -26,6 +26,12 @@
      localhost:8080/easy/generator
      localhost:8080/easy/vertify?verifyCode=79u2
     4.多个机器如何校验呢?
+     增加redis
+    5.kaptcha   baomidou出品
+     kaptchaContraller
+     http://localhost:8080/kcaptaher/render
+     
+     
      
      
     

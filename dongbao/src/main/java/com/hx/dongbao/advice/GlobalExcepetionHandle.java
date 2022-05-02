@@ -1,8 +1,13 @@
 package com.hx.dongbao.advice;
 
+import com.baomidou.kaptcha.exception.KaptchaException;
+import com.baomidou.kaptcha.exception.KaptchaIncorrectException;
+import com.baomidou.kaptcha.exception.KaptchaNotFoundException;
+import com.baomidou.kaptcha.exception.KaptchaTimeoutException;
 import com.hx.dongbao.utils.ResultWrapper;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import sun.security.krb5.internal.KrbApErrException;
 
 import javax.security.auth.login.LoginException;
 
@@ -13,7 +18,7 @@ import javax.security.auth.login.LoginException;
  * @description
  * @editUser hx
  * @editTime 2022/4/30 10:52
- * @editDescription  用户可以进行自定义异常....
+ * @editDescription 用户可以进行自定义异常....
  */
 @RestControllerAdvice
 public class GlobalExcepetionHandle {
@@ -26,5 +31,17 @@ public class GlobalExcepetionHandle {
     @ExceptionHandler(LoginException.class)
     public ResultWrapper loginExcetion(Exception e) {
         return ResultWrapper.getFailBuilder().msg(e.getMessage()).build();
+    }
+
+    @ExceptionHandler
+    public String kacaptchaException(KaptchaException e) {
+        if (e instanceof KaptchaIncorrectException) {
+            return "不正确";
+        } else if (e instanceof KaptchaNotFoundException) {
+            return "不正确";
+        }else if (e instanceof KaptchaTimeoutException) {
+            return "超时";
+        }
+        return "不知道啥错";
     }
 }
