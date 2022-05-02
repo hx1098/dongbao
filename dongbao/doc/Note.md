@@ -17,3 +17,15 @@
 
 ### 4.验证码解决方案
     1.jcaptcha   http://jcaptcha.sourceforge.net/
+      localhost:8080/code/generator
+      http://localhost:8080/jcapcha/vertify?verifyCode=stme
+    2.happy captcha
+      localhost:8080/happy/generator
+      http://localhost:8080/happy/vertify?verifyCode=stme
+    3.easy captcha
+     localhost:8080/easy/generator
+     localhost:8080/easy/vertify?verifyCode=79u2
+    4.多个机器如何校验呢?
+     
+     
+    
