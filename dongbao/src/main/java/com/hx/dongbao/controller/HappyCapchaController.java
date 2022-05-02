@@ -1,7 +1,9 @@
 package com.hx.dongbao.controller;
 
 import com.hx.dongbao.utils.JCaptchaUtil;
-import com.hx.dongbao.utils.VerifyCodeUtil;
+import com.ramostear.captcha.HappyCaptcha;
+import com.ramostear.captcha.support.CaptchaStyle;
+import com.ramostear.captcha.support.CaptchaType;
 import com.sun.image.codec.jpeg.JPEGCodec;
 import com.sun.image.codec.jpeg.JPEGImageEncoder;
 import lombok.extern.slf4j.Slf4j;
@@ -27,34 +29,17 @@ import java.io.IOException;
  */
 @Slf4j
 @RestController
-@RequestMapping("/jcapcha")
-public class JCapchaController {
+@RequestMapping("/happy")
+public class HappyCapchaController {
 
     public static final String codeKey = "verifyCode";
 
     @GetMapping("/generator")
     public void generatorCode(HttpServletRequest request, HttpServletResponse response) {
-        String id = request.getSession().getId();
-        BufferedImage bufferedImage = JCaptchaUtil.getService().getImageChallengeForID(id);
-
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        JPEGImageEncoder jpegEncoder = JPEGCodec.createJPEGEncoder(byteArrayOutputStream);
-
-        try {
-            jpegEncoder.encode(bufferedImage);
-            response.setHeader("Cache-Control","no-store");
-            response.setContentType("image/jpeg");
-            //将字节流输出出去
-            byte[] bytes = byteArrayOutputStream.toByteArray();
-            ServletOutputStream outputStream = response.getOutputStream();
-            outputStream.write(bytes);
-            outputStream.flush();
-            outputStream.close();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        HappyCaptcha.require(request, response)
+                .style(CaptchaStyle.ANIM)
+                .type(CaptchaType.ARITHMETIC)
+                .build().finish();
     }
 
 
@@ -63,8 +48,10 @@ public class JCapchaController {
     @GetMapping("/vertify")
     public String vertify(String verifyCode, HttpServletRequest request) {
         log.info("vertify::verifyCode = [{}]",verifyCode);
-        Boolean aBoolean = JCaptchaUtil.getService().validateResponseForID(request.getSession().getId(), verifyCode);
+        //忽略大小写
+        Boolean aBoolean = HappyCaptcha.verification(request, verifyCode, true);
         if (aBoolean) {
+            HappyCaptcha.remove(request);
             return "通过";
         }
         return "不通过";
