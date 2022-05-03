@@ -30,6 +30,10 @@
     5.kaptcha   baomidou出品
      kaptchaContraller
      http://localhost:8080/kcaptaher/render
+    6.slideController 滑块类型的验证码
+     破解类库: openCV
+     打码赚钱: 顶象, 腾讯天宇, 网易网盾
+    总的老说, 验证码是只能做到相对安全, 道高一尺, 魔高一丈, 没有绝对的安全.
      
      
      
