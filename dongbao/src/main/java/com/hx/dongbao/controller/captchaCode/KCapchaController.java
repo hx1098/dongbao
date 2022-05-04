@@ -1,4 +1,4 @@
-package com.hx.dongbao.controller;
+package com.hx.dongbao.controller.captchaCode;
 
 import com.baomidou.kaptcha.Kaptcha;
 import com.baomidou.kaptcha.exception.KaptchaNotFoundException;

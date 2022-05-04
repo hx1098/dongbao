@@ -1,4 +1,4 @@
-package com.hx.dongbao.controller;
+package com.hx.dongbao.controller.captchaCode;
 
 import com.hx.dongbao.annotion.TokenCheck;
 import com.hx.dongbao.utils.VerifyCodeUtil;

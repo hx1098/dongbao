@@ -1,4 +1,4 @@
-package com.hx.dongbao.controller;
+package com.hx.dongbao.controller.captchaCode;
 
 import com.ramostear.captcha.HappyCaptcha;
 import com.sun.xml.internal.bind.v2.TODO;

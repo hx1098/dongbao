@@ -1,4 +1,4 @@
-package com.hx.dongbao.controller;
+package com.hx.dongbao.controller.captchaCode;
 
 import com.hx.dongbao.utils.JCaptchaUtil;
 import com.ramostear.captcha.HappyCaptcha;
