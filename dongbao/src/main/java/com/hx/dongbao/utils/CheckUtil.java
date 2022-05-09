@@ -56,6 +56,7 @@ public class CheckUtil {
         HashMap map = new HashMap();
         map.put("appId", 1);
         map.put("name", 2);
+        map.put("timestamp", 1652102502616L);
         //9ba15cc8852ab58bdc0772363e2324c1
         String s = generatorSign(map);
         System.out.println(s);

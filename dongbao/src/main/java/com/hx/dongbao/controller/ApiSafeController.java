@@ -37,10 +37,16 @@ public class ApiSafeController {
 
 
     @PostMapping("get-test")
-    public String getTest(String appId, String sign, String name) {
+    public String getTest(String appId, String sign, String name,Long timestamp) {
         HashMap map = new HashMap();
         map.put("appId", appId);
         map.put("name", name);
+        map.put("timestamp", timestamp);
+
+        Long time = System.currentTimeMillis() - timestamp;
+        if (time > 30 * 1000) {
+            return "接口过期了";
+        }
 
         String s = CheckUtil.generatorSign(map);
         if (s.equals(sign)) {
